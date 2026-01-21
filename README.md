@@ -172,6 +172,7 @@ curl -X POST http://localhost:8000/api/query/ \
 
 ![alt text](data/imgs/results-final.png)
 
+
 Response:
 ```json
 {
