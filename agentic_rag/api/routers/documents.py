@@ -12,16 +12,40 @@ from ..dependencies import get_pipeline, PipelineState
 router = APIRouter()
 
 
-@router.post("/upload", response_model=UploadResponse)
+@router.post(
+    "/upload",
+    response_model=UploadResponse,
+    summary="Upload PDF",
+    description="""
+Upload a PDF document to be parsed, chunked, and indexed.
+
+**Processing Pipeline:**
+1. **Parse**: Extract text and images from each page
+2. **Table Detection**: Identify pages containing tables
+3. **Table Extraction**: Use Vision LLM (GPT-4o) to extract tables as JSON
+4. **Chunking**: Split text into semantic chunks, tables kept atomic
+5. **Indexing**: Generate embeddings and store in vector database
+
+Supported file types: `.pdf` only
+""",
+)
 async def upload_pdf(
-    file: UploadFile = File(...),
+    file: UploadFile = File(..., description="PDF file to upload"),
     extract_tables: bool = True,
     pipeline: PipelineState = Depends(get_pipeline),
 ):
     """
     Upload and index a PDF document.
 
-    Pipeline: Parse -> Extract Tables -> Chunk -> Index
+    The document goes through the full ingestion pipeline:
+    Parse -> Extract Tables -> Chunk -> Index
+
+    Args:
+        file: PDF file to upload (multipart/form-data)
+        extract_tables: Whether to use Vision LLM for table extraction (default: True)
+
+    Returns:
+        Upload status and document information including chunk count
     """
     # Validate file type
     if not file.filename.lower().endswith('.pdf'):
@@ -92,9 +116,21 @@ async def upload_pdf(
         tmp_path.unlink(missing_ok=True)
 
 
-@router.get("/list", response_model=DocumentListResponse)
+@router.get(
+    "/list",
+    response_model=DocumentListResponse,
+    summary="List Documents",
+    description="Get a list of all documents that have been uploaded and indexed.",
+)
 async def list_documents(pipeline: PipelineState = Depends(get_pipeline)):
-    """List all indexed documents."""
+    """
+    List all indexed documents.
+
+    Returns summary information for each document including:
+    - Filename
+    - Total pages
+    - Number of pages with tables
+    """
     return DocumentListResponse(
         documents=[
             DocumentListItem(
@@ -107,9 +143,18 @@ async def list_documents(pipeline: PipelineState = Depends(get_pipeline)):
     )
 
 
-@router.post("/clear")
+@router.post(
+    "/clear",
+    summary="Clear Index",
+    description="Remove all documents from the index. This action cannot be undone.",
+)
 async def clear_index(pipeline: PipelineState = Depends(get_pipeline)):
-    """Clear all documents from the index."""
+    """
+    Clear all documents from the index.
+
+    **Warning**: This removes all indexed data and cannot be undone.
+    You will need to re-upload documents after clearing.
+    """
     pipeline.index.clear()
     pipeline.indexed_documents.clear()
     return {"success": True, "message": "Index cleared"}

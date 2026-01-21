@@ -8,7 +8,29 @@ from ..dependencies import get_pipeline, PipelineState
 router = APIRouter()
 
 
-@router.post("/", response_model=QueryResponse)
+@router.post(
+    "/",
+    response_model=QueryResponse,
+    summary="Query Documents",
+    description="""
+Query your indexed documents using the full RAG (Retrieval-Augmented Generation) pipeline.
+
+**Pipeline Stages:**
+1. **Retrieve**: Find relevant chunks using semantic search
+2. **Reason**: Use chain-of-thought reasoning to analyze retrieved content
+3. **Extract**: Pull out structured data and numerical values
+4. **Guardrails**: Check extracted values against safety policies
+5. **Synthesize**: Generate summary, key findings, and citations
+
+**Response includes:**
+- Executive summary answering your question
+- Key findings as bullet points
+- Extracted numerical data with units
+- Risk flags if values exceed policy limits
+- Citations with source file, page, and relevance score
+- Confidence score (0.0 - 1.0)
+""",
+)
 async def query_documents(
     request: QueryRequest,
     pipeline: PipelineState = Depends(get_pipeline),
@@ -16,7 +38,17 @@ async def query_documents(
     """
     Query indexed documents using the full RAG pipeline.
 
-    Pipeline: Retrieve -> Reason -> Synthesize
+    The query goes through: Retrieve -> Reason -> Synthesize
+
+    Args:
+        request: Query parameters including the question and options
+
+    Returns:
+        Structured response with summary, findings, data, citations, and risk flags
+
+    Raises:
+        400: No documents indexed
+        500: Processing error
     """
     # Check if index has data
     stats = pipeline.index.get_stats()

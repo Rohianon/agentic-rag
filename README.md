@@ -3,6 +3,9 @@
 An enterprise-grade RAG (Retrieval-Augmented Generation) pipeline for analyzing unstructured documents including PDFs with tables, specifications, and financial data.
 
 ## Architecture
+![alt text](data/imgs/basic.png)
+
+![alt text](data/imgs/agentic-framework.png)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -70,6 +73,134 @@ uv run python scripts/generate_sample_pdfs.py
 # Run the demo notebook
 uv run jupyter notebook notebooks/demo.ipynb
 ```
+
+---
+
+## Web UI
+
+A visual interface is available for demos and testing.
+
+### Running the Server
+
+```bash
+uv run python main.py
+```
+
+Then open:
+- **Frontend**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+
+### Features
+
+- **Drag & drop PDF upload** with progress indicator
+- **Query interface** with natural language input
+- **Results display** showing:
+  - Summary and key findings
+  - Extracted data with units
+  - Risk flags (color-coded by severity)
+  - Citations with source file, page, and relevance
+  - Confidence score
+
+---
+
+## API Reference
+
+### Health Check
+
+```bash
+curl http://localhost:8000/api/health
+```
+
+Response:
+```json
+{
+  "status": "healthy",
+  "timestamp": "2026-01-21T10:30:00Z",
+  "index_stats": {
+    "total_chunks": 15,
+    "text_chunks": 12,
+    "table_chunks": 3,
+    "indexed_documents": ["technical_report.pdf"]
+  }
+}
+```
+
+### Upload Document
+
+```bash
+curl -X POST http://localhost:8000/api/documents/upload \
+  -F "file=@document.pdf"
+```
+
+Response:
+```json
+{
+  "success": true,
+  "filename": "document.pdf",
+  "message": "Successfully indexed 5 chunks",
+  "document_info": {
+    "filename": "document.pdf",
+    "total_pages": 2,
+    "pages_with_tables": 1,
+    "chunks_indexed": 5,
+    "indexed_at": "2026-01-21T10:30:00Z"
+  }
+}
+```
+
+### List Documents
+
+```bash
+curl http://localhost:8000/api/documents/list
+```
+
+### Query Documents
+
+```bash
+curl -X POST http://localhost:8000/api/query/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What is the maximum operating temperature?",
+    "n_chunks": 5,
+    "apply_guardrails": true
+  }'
+```
+
+Response:
+```json
+{
+  "query": "What is the maximum operating temperature?",
+  "summary": "The maximum operating temperature is 80°C...",
+  "key_findings": [
+    "Maximum operating temperature: 80°C",
+    "Automatic shutdown triggers at 85°C"
+  ],
+  "extracted_data": {
+    "max_temperature": {"value": "80", "unit": "°C", "source": 1}
+  },
+  "risk_flags": [],
+  "citations": [
+    {
+      "id": 1,
+      "source_file": "technical_report.pdf",
+      "page": 1,
+      "chunk_type": "text",
+      "relevance": 0.95,
+      "excerpt": "Maximum Temperature: 80°C (CRITICAL)..."
+    }
+  ],
+  "confidence_score": 0.92,
+  "metadata": {"model": "gpt-4o", "chunks_retrieved": 5}
+}
+```
+
+### Clear Index
+
+```bash
+curl -X POST http://localhost:8000/api/documents/clear
+```
+
+---
 
 ## Project Structure
 
