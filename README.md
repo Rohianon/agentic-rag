@@ -132,6 +132,8 @@ curl -X POST http://localhost:8000/api/documents/upload \
   -F "file=@document.pdf"
 ```
 
+![alt text](data/imgs/upload-doc.png)
+
 Response:
 ```json
 {
@@ -165,6 +167,10 @@ curl -X POST http://localhost:8000/api/query/ \
     "apply_guardrails": true
   }'
 ```
+
+![alt text](data/imgs/results-analysis.png)
+
+![alt text](data/imgs/results-final.png)
 
 Response:
 ```json
