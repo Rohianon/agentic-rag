@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Agentic RAG Pipeline</h1>
+            <p class="subtitle">Enterprise Document Analysis Demo</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="card">
+                <h2>Upload Document</h2>
+                <div id="upload-area" class="upload-area">
+                    <input type="file" id="file-input" accept=".pdf" hidden>
+                    <div class="upload-content">
+                        <span class="upload-icon">📄</span>
+                        <p>Drag & drop a PDF here or <button id="browse-btn" class="link-btn">browse</button></p>
+                    </div>
+                </div>
+                <div id="upload-status" class="status hidden"></div>
+            </section>
+
+            <!-- Indexed Documents -->
+            <section class="card">
+                <h2>Indexed Documents</h2>
+                <div id="documents-list" class="documents-list">
+                    <p class="empty-state">No documents indexed yet</p>
+                </div>
+                <button id="refresh-docs" class="btn btn-secondary">Refresh</button>
+            </section>
+
+            <!-- Query Section -->
+            <section class="card">
+                <h2>Query Documents</h2>
+                <form id="query-form">
+                    <div class="input-group">
+                        <input type="text" id="query-input" placeholder="Ask a question about your documents..." required>
+                        <button type="submit" class="btn btn-primary" id="query-btn">Ask</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section -->
+            <section id="results-section" class="card hidden">
+                <h2>Results</h2>
+
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing documents...</p>
+                </div>
+
+                <div id="results" class="results hidden">
+                    <!-- Confidence -->
+                    <div class="confidence-bar">
+                        <span>Confidence:</span>
+                        <div class="progress-bar">
+                            <div id="confidence-fill" class="progress-fill"></div>
+                        </div>
+                        <span id="confidence-value">0%</span>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="result-block">
+                        <h3>Summary</h3>
+                        <p id="summary"></p>
+                    </div>
+
+                    <!-- Key Findings -->
+                    <div class="result-block">
+                        <h3>Key Findings</h3>
+                        <ul id="findings"></ul>
+                    </div>
+
+                    <!-- Extracted Data -->
+                    <div id="extracted-section" class="result-block hidden">
+                        <h3>Extracted Data</h3>
+                        <div id="extracted-data" class="data-cards"></div>
+                    </div>
+
+                    <!-- Risk Flags -->
+                    <div id="risks-section" class="result-block hidden">
+                        <h3>Risk Flags</h3>
+                        <div id="risk-flags"></div>
+                    </div>
+
+                    <!-- Citations -->
+                    <div class="result-block">
+                        <h3>Citations</h3>
+                        <div id="citations"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Agentic RAG Pipeline Demo | <a href="/docs" target="_blank">API Docs</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-muted);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: pointer;
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: var(--primary);
+    background: #f1f5f9;
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: inherit;
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-primary:disabled {
+    background: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: var(--border);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Status */
+.status {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+}
+
+.status.success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status.loading {
+    background: #e0f2fe;
+    color: #075985;
+}
+
+/* Documents List */
+.documents-list {
+    margin-bottom: 1rem;
+}
+
+.document-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: var(--bg);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+}
+
+.document-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.document-icon {
+    font-size: 1.5rem;
+}
+
+.document-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.empty-state {
+    color: var(--text-muted);
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Results */
+.results {
+    margin-top: 1rem;
+}
+
+.result-block {
+    margin-bottom: 1.5rem;
+}
+
+.result-block h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.result-block ul {
+    padding-left: 1.25rem;
+}
+
+.result-block li {
+    margin-bottom: 0.25rem;
+}
+
+/* Confidence Bar */
+.confidence-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--success);
+    transition: width 0.3s;
+}
+
+/* Data Cards */
+.data-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.data-card {
+    background: var(--bg);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--primary);
+}
+
+.data-card .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.data-card .value {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Risk Flags */
+.risk-flag {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+}
+
+.risk-flag.info {
+    background: #dbeafe;
+    border-left: 3px solid var(--info);
+}
+
+.risk-flag.warning {
+    background: #fef3c7;
+    border-left: 3px solid var(--warning);
+}
+
+.risk-flag.critical {
+    background: #fee2e2;
+    border-left: 3px solid var(--danger);
+}
+
+.risk-flag .severity {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Citations */
+.citation {
+    background: var(--bg);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.citation-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.citation-source {
+    font-weight: 500;
+}
+
+.citation-relevance {
+    color: var(--text-muted);
+}
+
+.citation-excerpt {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+footer a {
+    color: var(--primary);
+}
